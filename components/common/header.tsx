@@ -1,5 +1,16 @@
-import { HomeIcon, SparkleIcon } from "lucide-react";
+"use client";
+
+import {
+  CompassIcon,
+  HomeIcon,
+  LoaderIcon,
+  SparkleIcon,
+  SparklesIcon,
+} from "lucide-react";
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { SignInButton, SignUpButton, Show, UserButton } from "@clerk/nextjs";
+import { Suspense } from "react";
 
 const Logo = () => {
   return (
@@ -26,8 +37,42 @@ export default function Header() {
               className='flex items-center gap-2 px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors hover:bg-muted/50'
             >
               <HomeIcon className='size-4' />
+              <span>Home</span>
+            </Link>
+            <Link
+              href='/explore'
+              className='flex items-center gap-2 px-3 py-3 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors hover:bg-muted/50'
+            >
+              <CompassIcon className='size-4' />
+              <span>Explore</span>
             </Link>
           </nav>
+
+          <div className='flex items-center gap-3'>
+            <Suspense
+              fallback={
+                <div>
+                  <LoaderIcon className='size-4 animate-spin' />
+                </div>
+              }
+            >
+              <Show when='signed-out'>
+                <SignInButton />
+                <SignUpButton>
+                  <Button>Sign Up</Button>
+                </SignUpButton>
+              </Show>
+              <Show when='signed-in'>
+                <Button asChild>
+                  <Link href='/submit'>
+                    <SparklesIcon className='size-4' />
+                    Submit Project
+                  </Link>
+                </Button>
+                <UserButton />
+              </Show>
+            </Suspense>
+          </div>
         </div>
       </div>
     </header>

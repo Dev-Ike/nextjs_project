@@ -1,6 +1,8 @@
 import FeaturedProducts from "@/components/landing-page/featured-product-card";
 import HeroSection from "@/components/landing-page/hero-section";
 import RecentlyLaunchedProducts from "@/components/landing-page/recently-launched-projects";
+import { LoaderIcon } from "lucide-react";
+import { Suspense } from "react";
 
 export default function Home() {
   return (
@@ -8,8 +10,16 @@ export default function Home() {
       <HeroSection />
 
       <FeaturedProducts />
-
-      <RecentlyLaunchedProducts />
+      <Suspense
+        fallback={
+          <div className='wrapper flex items-center gap-2'>
+            Loading... Recently Launched Products ...{""}
+            <LoaderIcon className='size-4 animate-spin'></LoaderIcon>
+          </div>
+        }
+      >
+        <RecentlyLaunchedProducts />
+      </Suspense>
     </div>
   );
 }
